@@ -1,25 +1,40 @@
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, Parser, Subcommand};
+use clap_help::Printer;
 
-use crate::terminal_out::{green_fog, red_fog, Foggy};
+use crate::out::{blue_fog, explain_fog, green_fog, white_fog, Foggy};
 
 pub async fn figure() -> Foggy {
     let cli = Cli::parse();
-
-    let result: anyhow::Result<String> = match cli.command {
-        None => Ok("try fog --help for information on how to use fog".into()),
-        Some(_) => Ok("Nothing yet".into()),
-    };
-
-    match result {
-        Ok(o) => green_fog(o),
-        Err(err) => red_fog(err.to_string()),
+    match cli.command {
+        None => {
+            Printer::new(Cli::command()).print_help();
+            blue_fog("Visit https://github.com/LunchTimeCode/fog_pit for more")
+        }
+        Some(commands) => match commands {
+            Commands::Markdown => white_fog(clap_markdown::help_markdown::<Cli>()),
+            Commands::Explain => {
+                explain_fog();
+                white_fog("This should never happen")
+            }
+            Commands::Pit => green_fog("Nothing yet"),
+        },
     }
 }
 
-/// dreamy cli
+/// fog cli
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about, name = "fog")]
+#[command(
+    author,
+    version,
+    about,
+    long_about,
+    name = "fog",
+    disable_help_flag = true
+)]
 struct Cli {
+    /// Print help
+    #[arg(long)]
+    help: bool,
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -29,6 +44,7 @@ struct Cli {
 enum Commands {
     /// [STABLE] print markdown doc of fog to std out
     Markdown,
+    Explain,
     /// [Preview] does nothing for now
     Pit,
 }

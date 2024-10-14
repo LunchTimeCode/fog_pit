@@ -1,0 +1,40 @@
+[package]
+name = "fog_pit"
+authors = ["Silen Celeste Locatelli"]
+version = "0.1.0"
+edition = "2021"
+license-file = "LICENSE"
+repository = "https://github.com/LunchTimeCode/fog_pit"
+documentation = "https://github.com/LunchTimeCode/fog_pit"
+homepage = "https://github.com/LunchTimeCode/fog_pit"
+description = "A view into matrix files"
+
+[[bin]]
+name = "fog"
+path = "src/main.rs"
+
+
+[dependencies]
+axum = {version = "0.7.5", features = ["json"]}
+tokio = { version = "1.0", features = ["full"] }
+askama = { version = "0.12.1" }
+serde = { version = "1.0", features = ["derive"] }
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] } 
+
+colored = "2"
+anyhow= "1"
+lazy_static = "1"
+
+uuid = {version ="1.10.0", features = [
+"v4",
+"rng"
+] }
+tower-http = {version = "0.6.1", features = ["fs"]}
+rand = "0.8.5"
+regex = "1.11"
+clap = { version = "4.4.8", features = ["derive", "unstable-doc", "env"] }
+
+[profile.dev.package."*"]
+opt-level = 1

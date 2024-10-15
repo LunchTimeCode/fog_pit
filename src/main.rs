@@ -1,5 +1,6 @@
 mod commands;
 mod out;
+mod server;
 
 #[tokio::main]
 async fn main() {

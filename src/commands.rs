@@ -1,7 +1,10 @@
 use clap::{CommandFactory, Parser, Subcommand};
 use clap_help::Printer;
 
-use crate::out::{blue_fog, explain_fog, green_fog, white_fog, Foggy};
+use crate::{
+    out::{blue_fog, explain_fog, white_fog, Foggy},
+    server,
+};
 
 pub async fn figure() -> Foggy {
     let cli = Cli::parse();
@@ -16,7 +19,7 @@ pub async fn figure() -> Foggy {
                 explain_fog();
                 white_fog("This should never happen")
             }
-            Commands::Pit => green_fog("Nothing yet"),
+            Commands::Pit { port } => server::start_server(port).await,
         },
     }
 }
@@ -46,5 +49,9 @@ enum Commands {
     Markdown,
     Explain,
     /// [Preview] does nothing for now
-    Pit,
+    Pit {
+        // set port of the tool
+        #[arg(short, long, env = "DY_PORT", default_value_t = String::from("3000"))]
+        port: String,
+    },
 }

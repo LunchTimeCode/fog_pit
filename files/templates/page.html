@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-theme="dark">
+<link rel="stylesheet" href="_assets/pico.min.css"> 
+<link rel="stylesheet" href="_assets/app.css">
+<script src="/_assets/htmx.min.js"></script>
+
+<head>
+    <title>{{ title }}</title>
+</head>
+<body id="full_body">
+    <div class="container">
+        <nav>
+          <ul>
+            <li><strong>{{ title }}</strong></li>
+          </ul>
+          <ul>
+            <li><button class="primary">Files</button></li>
+            <li><button class="secondary">Settings</button></li>
+          </ul>
+        </nav>
+    </div>
+    <div class="container" >
+        <div class="flexcontainer">
+                <aside class="sidebar">
+                    <nav>
+                        <ul>
+                          <li><a href="#">Folder1</a></li>
+                          <li><a href="#">Folder2</a></li>
+                          <li><a href="#">Folder3</a></li>
+                        </ul>
+                      </nav>
+                </aside>
+            
+                <div id="content"
+                    class="border"
+                hx-get="/content"
+                hx-trigger="load"
+                >
+                    
+            
+                </div>
+       
+            
+        </div>
+     
+        
+     
+       
+    </div>
+   
+   
+   
+
+</body>
+</html>
